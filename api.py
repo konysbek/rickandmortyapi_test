@@ -22,6 +22,12 @@ def test_base_api(link):
     assert res.status_code == 200
     assert BASE_LINK + link in res.json().values()
 
+# тест на рандомные значения в ссылке
+# должно выдавать 404
+@pytest.mark.parametrize('sym', ['abc', 'def', '0824365t978rgcynildsy', '!@#$%^&*()_', 'we want to be better'])
+def test_random_char_set(sym):
+    random_res = requests.get(BASE_LINK + sym)
+    assert random_res.status_code == 404
 
 def test_character_api():
     char_res = requests.get(BASE_LINK + "character")
@@ -46,8 +52,13 @@ def test_episodes_api():
 def test_character_selection():
     pass
 
+
 def test_episode_selection():
     pass
 
+
 def test_char_ep_selection():
     pass
+
+
+
