@@ -1,6 +1,8 @@
 import requests
 import pytest
 
+# проверить на 404
+
 # BASE_LINK - основная ссылка, по которой будем тестировать API сайте Rick and Morty
 BASE_LINK = "https://rickandmortyapi.com/api/"
 
