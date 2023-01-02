@@ -7,10 +7,12 @@ import pytest
 BASE_LINK = "https://rickandmortyapi.com/api/"
 BAD_LINK = "https://rickandmortyapi.com/apii/"
 
+
 @pytest.mark.parametrize('link', ['character', 'location', 'episode'])
 def test_is_200(link):
     res = requests.get(BASE_LINK + link)
     assert res.status_code == 200
+
 
 # добавил тест на несуществующий линк, мало ли
 # нужно придумать другие пути для тестирования
@@ -18,11 +20,13 @@ def test_is_400():
     bad_res = requests.get(BAD_LINK)
     assert bad_res.status_code == 404
 
+
 @pytest.mark.parametrize('link', ['character', 'location', 'episode'])
 def test_base_api(link):
     res = requests.get(BASE_LINK)
     assert res.status_code == 200
     assert BASE_LINK + link in res.json().values()
+
 
 # тест на рандомные значения в ссылке
 # должно выдавать 404
@@ -30,6 +34,7 @@ def test_base_api(link):
 def test_random_char_set(sym):
     random_res = requests.get(BASE_LINK + sym)
     assert random_res.status_code == 404
+
 
 def test_character_api():
     char_res = requests.get(BASE_LINK + "character")
@@ -49,10 +54,17 @@ def test_episodes_api():
     assert ep_res.status_code == 200
 
 
-
 # болванки для тестов выбора персонажа, эпизода,
 # выбора персонажа в эпизоде
-def test_character_selection():
+
+
+@pytest.mark.parametrize('name, type, gender', [('Rick Sanchez', 'Soulless Puppet', 'Female'),
+                                                ('MAX MAX', 'Soulless Puppet', 'Female')])
+def test_character_selection(name, type, gender):
+    ep_res = requests.get(BASE_LINK + 'character?name=' + name + '&' + 'type=' + type + '&' + 'gender=' +gender)
+    assert ep_res.status_code == 404
+
+
     pass
 
 
@@ -62,4 +74,3 @@ def test_episode_selection():
 
 def test_char_ep_selection():
     pass
-
